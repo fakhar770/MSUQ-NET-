@@ -30,24 +30,6 @@ The project also includes patient-level data preparation, training, 2D evaluatio
 
 [Open the full-resolution network diagram](main%20diagram%20%281%29.png).
 
-### Processing overview
-
-```mermaid
-flowchart TD
-    A["Four MRI modalities: FLAIR, T1, T1CE, T2"] --> B["2D input slices: 4 × 160 × 160"]
-    B --> C["Input projection and Swin Transformer encoder"]
-    C --> D["Multiscale Swin stages and Bayesian transition blocks"]
-    D --> E["EMCC bottleneck"]
-    E --> F["Decoder with skip connections"]
-    C -. "Encoder features" .-> F
-    D -. "Encoder features" .-> F
-    D --> G["Auxiliary heteroscedastic heads"]
-    F --> H["Final mean logits and positive variance"]
-    H --> I["WT / TC / ET segmentation"]
-    H --> J["Repeated Bayesian sampling for uncertainty analysis"]
-    I --> K["2D metrics and patient-level 3D reconstruction"]
-```
-
 The model is implemented as `BayesianEMCCUncertaintyModel` in [`model.py`](model.py). Its outputs include final segmentation mean logits, predicted variance, decoder logits, and auxiliary mean/variance predictions at encoder scales.
 
 ### EMCC and Bayesian transition blocks
