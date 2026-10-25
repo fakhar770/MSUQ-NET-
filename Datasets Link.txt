@@ -1,0 +1,11 @@
+Brats 2020:
+
+https://www.kaggle.com/datasets/awsaf49/brats20-dataset-training-validation
+
+Brats 2021: 
+
+https://www.kaggle.com/datasets/dschettler8845/brats-2021-task1/data
+
+Brats 2024:
+
+https://www.kaggle.com/datasets/awsaf49/brats20-dataset-training-validation
