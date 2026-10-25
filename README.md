@@ -72,7 +72,7 @@ MSUQ-NET-/
 ├── training_script.py                    # Training, validation, checkpoints, and plots
 ├── losses.py                             # Segmentation loss implementations
 ├── metrics.py                            # Segmentation and distance metrics
-├── MSUQ_Net_test_2d_final_corrected.py     # 2D segmentation and uncertainty evaluation
+├── MSUQ_Net_test_2d_final.py               # 2D segmentation and uncertainty evaluation
 ├── test_3D_reconstruction.py              # Patient-level 3D reconstruction and metrics
 ├── reverse_overlap_audit.py               # Cross-release exact-slice overlap screening
 ├── cross_dataset_evaluation.py            # Evaluation after candidate exclusions
@@ -88,8 +88,7 @@ Dataset links supplied with the project:
 
 - [BraTS 2020 training and validation data on Kaggle](https://www.kaggle.com/datasets/awsaf49/brats20-dataset-training-validation)
 - [BraTS 2021 Task 1 data on Kaggle](https://www.kaggle.com/datasets/dschettler8845/brats-2021-task1/data)
-
-The original `Datasets Link.txt` also contains a heading for BraTS 2024, but its URL repeats the BraTS 2020 link. A separate BraTS 2024 source is not provided here.
+- [BraTS 2024 dataset — full tumor-centered cropped data on Kaggle](https://www.kaggle.com/datasets/muhammadwahajsajid/brats-2024-dataset-full-tumor-centered-cropped)
 
 The preprocessing script expects one directory per patient, containing matching NIfTI files:
 
@@ -134,7 +133,7 @@ Training calls CUDA directly and therefore requires a compatible NVIDIA GPU and 
 1. **Prepare the MRI data.** Download the dataset separately and arrange patient folders using the expected filenames.
 2. **Preprocess at patient level.** `data_progress.py` defaults to a seeded 60% / 20% / 20% train, validation, and test split, with a 160 × 160 in-plane crop. Training and validation retain tumor-containing slices; testing retains every slice and complete patient-volume metadata.
 3. **Train the model.** `training_script.py` uses the prepared train and validation folders, checks patient overlap, and writes checkpoints, training history, and plots.
-4. **Evaluate 2D predictions.** `MSUQ_Net_test_2d_final_corrected.py` supports Monte Carlo sampling, segmentation metrics, uncertainty analysis, and saved visualizations.
+4. **Evaluate 2D predictions.** `MSUQ_Net_test_2d_final.py` supports Monte Carlo sampling, segmentation metrics, uncertainty analysis, and saved visualizations.
 5. **Reconstruct and evaluate 3D volumes.** `test_3D_reconstruction.py` predicts axial slices, restores their original in-plane dimensions, and calculates patient-level region metrics. The network itself remains 2D.
 6. **Screen cross-release overlap when relevant.** `reverse_overlap_audit.py` compares BraTS 2021 training/validation slices against BraTS 2020 test volumes. `cross_dataset_evaluation.py` evaluates the retained cohort after excluding strong screening candidates.
 
