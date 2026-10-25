@@ -24,6 +24,14 @@ The project also includes patient-level data preparation, training, 2D evaluatio
 
 ## Architecture
 
+### Overall network
+
+![MSUQ-Net architecture showing the Swin Transformer encoder, Bayesian transition blocks, EMCC bottleneck, skip connections, and decoder](main%20diagram%20%281%29.png)
+
+[Open the full-resolution network diagram](main%20diagram%20%281%29.png).
+
+### Processing overview
+
 ```mermaid
 flowchart TD
     A["Four MRI modalities: FLAIR, T1, T1CE, T2"] --> B["2D input slices: 4 × 160 × 160"]
@@ -41,6 +49,20 @@ flowchart TD
 ```
 
 The model is implemented as `BayesianEMCCUncertaintyModel` in [`model.py`](model.py). Its outputs include final segmentation mean logits, predicted variance, decoder logits, and auxiliary mean/variance predictions at encoder scales.
+
+### EMCC and Bayesian transition blocks
+
+![Detailed Bayesian transition block and EMCC block diagrams showing Bayesian convolutions, coordinate attention, and grouped convolutions](EMCC%20%26%20BTB%20Block%20.png)
+
+The supplied figure details the Bayesian transition block (BTB) in panel (a) and the EMCC convolutional block in panel (b).
+
+[Open the full-resolution EMCC and BTB diagram](EMCC%20%26%20BTB%20Block%20.png).
+
+### Uncertainty estimation
+
+![Supplied uncertainty schematic showing heteroscedastic mean and variance heads, aleatoric uncertainty, epistemic uncertainty, and segmentation](uncertainity.png)
+
+[Open the full-resolution uncertainty diagram](uncertainity.png).
 
 **Uncertainty estimation:** the 2D evaluator averages sigmoid probabilities over repeated Bayesian weight samples, estimates epistemic uncertainty from the sample variance of logits, and estimates aleatoric uncertainty from the mean predicted variance. Ordinary dropout remains disabled during this evaluation.
 
@@ -79,6 +101,9 @@ MSUQ-NET-/
 ├── Datasets Link.txt                     # Original dataset URL notes
 ├── Figures-test-2020.png                  # Supplied BraTS 2020 figure
 ├── Figures2021.png                        # Supplied BraTS 2021 figure
+├── main diagram (1).png                   # Overall network architecture
+├── EMCC & BTB Block .png                  # EMCC and Bayesian transition block details
+├── uncertainity.png                      # Supplied uncertainty schematic
 └── README.md
 ```
 
